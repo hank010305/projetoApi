@@ -17,56 +17,46 @@ namespace ApiAula.Controllers
             _context = context;
         }
 
+
         [HttpPost]
         public async Task<ActionResult<int>> Post(Utilizador Utilizador)
         {
-            if (String.IsNullOrEmpty(Utilizador.Nome) || Utilizador.Nome.Length <2)
-                return BadRequest("Nome invalido!");
-
-  
-
-            _context.Alunos.Add(Utilizador);
+            _context.utilizadors.Add(Utilizador);
             await _context.SaveChangesAsync();
             return Utilizador.Id;
         }
 
 
-        
-        [HttpDelete]
+
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            Utilizador Utilizador;
-            Utilizador = await _context.utilizadors.FirstOrDefaultAsync(p => p.Id == id);
+            Utilizador utilizador;
+            utilizador = await _context.utilizadors.FirstOrDefaultAsync(p => p.Id == id);
 
-            //_context.NOME_DA_TABELA_NO_BANCO_DE_DADOS
-            //Se nao for encontrado -> sinaliza elemento nao encontrado
-            if (Utilizador == null)
-                return NotFound("utilizador excluído com sucesso。");
+            // 如果未找到用户，则返回找不到的结果
+            if (utilizador == null)
+                return NotFound("O utilizador não existe.");
 
-            //se for remove o elemento
-            _context.utilizadors.Remove(Utilizador);
+            // 如果找到用户，则删除它
+            _context.utilizadors.Remove(utilizador);
             await _context.SaveChangesAsync();
 
-            return NotFound("utilizador não existe。");
-        }
-        
-        [HttpGet("alfabeto/{strBegin}")]
-        public async Task<ActionResult<List<Utilizador>>> GetByAlfabeto(string strBegin)
-        {
-            List<Utilizador> listUtilizadors;
-            listUtilizadors = 
-                await _context.utilizadors.AsQueryable()
-                .Where( a => a.Nome.StartsWith(strBegin) ).ToListAsync();
-            return listUtilizadors;
+            return Ok("O utilizador foi excluído com sucesso.");
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<Utilizador>>> GetProdutos()
+        {
+            return await _context.utilizadors.ToListAsync();
+        }
         [HttpPut]
         public async Task<ActionResult> Atualizar(Utilizador produto)
         {
-            _context.Attach(produto).State = EntityState.Modified;
+            _context.Entry(produto).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return NotFound("invalido");
+            return Ok("O utilizador foi atualizado com sucesso.");
         }
     }
 }

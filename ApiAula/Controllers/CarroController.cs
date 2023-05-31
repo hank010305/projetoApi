@@ -36,32 +36,21 @@ namespace ApiAula.Controllers
         }
 
         //Leitura de um Elmento do banco dados pelo ID
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Carro>> GetProdutos(int id)
-        {
-            Carro produto;
-            produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id);
-            if (produto == null)
-                return NotFound();
-
-            return produto;
-        }
-
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             Carro produto;
             produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id);
 
-            //Se nao for encontrado -> sinaliza elemento nao encontrado
+            // 如果未找到车辆，则返回找不到的结果
             if (produto == null)
-                return NotFound("excluído com sucesso。");
+                return NotFound("O carro não existe.");
 
-            //se for remove o elemento
+            // 如果找到车辆，则删除它
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            return NotFound("carro não existe。");
+            return Ok("O carro foi excluído com sucesso.");
         }
 
         //Atualizar Conteudo no SGBD
