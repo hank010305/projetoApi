@@ -42,11 +42,11 @@ namespace ApiAula.Controllers
             Carro produto;
             produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id);
 
-            // 如果未找到车辆，则返回找不到的结果
+            //Se o veículo não for encontrado, retorne o resultado não encontrado
             if (produto == null)
                 return NotFound("O carro não existe.");
 
-            // 如果找到车辆，则删除它
+            // Se um veículo for encontrado, exclua-o
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
@@ -60,7 +60,7 @@ namespace ApiAula.Controllers
             _context.Attach(produto).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("O carro foi atualizado com sucesso.");
         }
 
 

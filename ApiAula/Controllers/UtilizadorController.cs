@@ -34,11 +34,11 @@ namespace ApiAula.Controllers
             Utilizador utilizador;
             utilizador = await _context.utilizadors.FirstOrDefaultAsync(p => p.Id == id);
 
-            // 如果未找到用户，则返回找不到的结果
+            // Se o usuário não for encontrado, retorne o resultado não encontrado
             if (utilizador == null)
                 return NotFound("O utilizador não existe.");
 
-            // 如果找到用户，则删除它
+            // Se o usuário for encontrado, exclua-o
             _context.utilizadors.Remove(utilizador);
             await _context.SaveChangesAsync();
 
