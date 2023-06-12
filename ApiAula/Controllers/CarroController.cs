@@ -6,7 +6,7 @@ namespace ApiAula.Controllers
 {
     [ApiController]
 
-    [Route("teste/Carro")]
+    [Route("Carro")]
 
     public class CarroController : ControllerBase
     {

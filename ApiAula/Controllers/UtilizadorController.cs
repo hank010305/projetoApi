@@ -6,7 +6,7 @@ namespace ApiAula.Controllers
 {
     [ApiController]
 
-    [Route("api/teste/Utilizador")]
+    [Route("Utilizador")]
 
     public class UtilizadorController : ControllerBase
     {

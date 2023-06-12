@@ -13,6 +13,8 @@ namespace ApiAula
         public DbSet<Utilizador> utilizadors { get; set; }
         public DbSet<Carro> Carros { get; set; }
 
+        public DbSet<Reserva> Reserva { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
