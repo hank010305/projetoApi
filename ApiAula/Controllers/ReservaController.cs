@@ -31,5 +31,31 @@ namespace ApiAula.Controllers
         }
 
         //Leitura de um Elmento do banco dados pelo ID
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            Reserva reserva;
+            reserva = await _context.Reserva.FirstOrDefaultAsync(p => p.Id == id);
+
+            //Se o veículo não for encontrado, retorne o resultado não encontrado
+            if (reserva == null)
+                return NotFound(" não existe.");
+
+            // Se um veículo for encontrado, exclua-o
+            _context.Reserva.Remove(reserva);
+            await _context.SaveChangesAsync();
+
+            return Ok(" foi excluído com sucesso.");
+        }
+
+        //Atualizar Conteudo no SGBD
+        [HttpPut]
+        public async Task<ActionResult> Atualizar(Reserva reserva)
+        {
+            _context.Attach(reserva).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok("Atualizado com sucesso.");
+        }
     }
 }
